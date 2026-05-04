@@ -1,6 +1,4 @@
-import { Sigma } from "lucide-react";
-
-const defaultNavItems = [
+const navItems = [
   { id: "home", label: "首頁" },
   { id: "map", label: "知識地圖" },
   { id: "formulas", label: "公式庫" },
@@ -9,36 +7,41 @@ const defaultNavItems = [
   { id: "chart", label: "圖表工具" },
   { id: "cases", label: "案例庫" },
   { id: "glossary", label: "詞彙表" },
-  { id: "path", label: "學習路線" }
+  { id: "path", label: "學習路線" },
+  { id: "about", label: "關於本站" },
+  { id: "contact", label: "聯絡我們" }
 ];
 
-function Header({ currentPage = "home", setCurrentPage, navItems = defaultNavItems }) {
+function Header({ currentPage = "home", navigate }) {
   function handleNavigate(pageId) {
-    window.location.hash = pageId;
-
-    if (typeof setCurrentPage === "function") {
-      setCurrentPage(pageId);
+    if (typeof navigate === "function") {
+      navigate(pageId);
+      return;
     }
+
+    window.location.hash = pageId;
   }
 
   return (
     <header className="site-header">
-      <div className="nav-container">
-        <button className="brand" onClick={() => handleNavigate("home")}>
-          <span className="brand-icon">
-            <Sigma size={22} />
-          </span>
-
-          <span>
-            <strong>StatMap</strong>
-            <small>統計學全景平台</small>
-          </span>
+      <div className="container header-inner">
+        <button
+          className="brand"
+          type="button"
+          onClick={() => handleNavigate("home")}
+        >
+          <div className="brand-mark">Σ</div>
+          <div>
+            <div className="brand-title">StatMap</div>
+            <div className="brand-subtitle">統計學全景平台</div>
+          </div>
         </button>
 
-        <nav className="main-nav" aria-label="網站主選單">
+        <nav className="main-nav" aria-label="主導航">
           {navItems.map((item) => (
             <button
               key={item.id}
+              type="button"
               className={currentPage === item.id ? "nav-link active" : "nav-link"}
               onClick={() => handleNavigate(item.id)}
             >

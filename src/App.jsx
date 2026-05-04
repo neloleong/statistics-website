@@ -21,14 +21,40 @@ import CaseLibraryPage from "./pages/CaseLibraryPage";
 import GlossaryPage from "./pages/GlossaryPage";
 import LearningPathPage from "./pages/LearningPathPage";
 
+import AboutPage from "./pages/AboutPage";
+import ContactPage from "./pages/ContactPage";
+import PrivacyPage from "./pages/PrivacyPage";
+import DisclaimerPage from "./pages/DisclaimerPage";
+
+const validPages = [
+  "home",
+  "map",
+  "topic-detail",
+  "formulas",
+  "methods",
+  "calculators",
+  "chart",
+  "cases",
+  "glossary",
+  "path",
+  "about",
+  "contact",
+  "privacy",
+  "disclaimer"
+];
+
 function getInitialPage() {
-  const hash = window.location.hash.replace("#", "");
+  const hash = window.location.hash.replace("#", "").trim();
 
   if (!hash) {
     return "home";
   }
 
-  return hash;
+  if (validPages.includes(hash)) {
+    return hash;
+  }
+
+  return "home";
 }
 
 function App() {
@@ -52,7 +78,14 @@ function App() {
     };
   }, []);
 
-  function changePage(pageId) {
+  function navigate(pageId) {
+    if (!validPages.includes(pageId)) {
+      window.location.hash = "home";
+      setCurrentPage("home");
+      setSelectedTopic(null);
+      return;
+    }
+
     window.location.hash = pageId;
     setCurrentPage(pageId);
 
@@ -73,7 +106,7 @@ function App() {
   }
 
   const pageMap = {
-    home: <HomePage setCurrentPage={changePage} />,
+    home: <HomePage navigate={navigate} />,
     map: <KnowledgeMapPage onOpenTopic={openTopicDetail} />,
     "topic-detail": (
       <TopicDetailPage topic={selectedTopic} onBack={backToKnowledgeMap} />
@@ -84,26 +117,32 @@ function App() {
     chart: <ChartToolPage />,
     cases: <CaseLibraryPage />,
     glossary: <GlossaryPage />,
-    path: <LearningPathPage />
+    path: <LearningPathPage />,
+    about: <AboutPage />,
+    contact: <ContactPage />,
+    privacy: <PrivacyPage />,
+    disclaimer: <DisclaimerPage />
   };
 
   return (
     <div className="app">
-      <Header currentPage={currentPage} setCurrentPage={changePage} />
+      <Header currentPage={currentPage} navigate={navigate} />
 
       <main>{pageMap[currentPage] || pageMap.home}</main>
 
-      <Footer />
+      <Footer navigate={navigate} />
     </div>
   );
 }
 
-function HomePage({ setCurrentPage }) {
+function HomePage({ navigate }) {
   return (
     <>
       <section className="hero">
         <div className="hero-content">
-          <span className="hero-badge">Statistics Learning & Analysis Platform</span>
+          <span className="hero-badge">
+            Statistics Learning & Analysis Platform
+          </span>
 
           <h1>統計學全景知識與分析平台</h1>
 
@@ -113,11 +152,19 @@ function HomePage({ setCurrentPage }) {
           </p>
 
           <div className="hero-actions">
-            <button className="primary-btn" onClick={() => setCurrentPage("map")}>
+            <button
+              className="primary-btn"
+              type="button"
+              onClick={() => navigate("map")}
+            >
               開始瀏覽知識地圖
             </button>
 
-            <button className="secondary-btn" onClick={() => setCurrentPage("methods")}>
+            <button
+              className="secondary-btn"
+              type="button"
+              onClick={() => navigate("methods")}
+            >
               選擇統計方法
             </button>
           </div>
@@ -130,11 +177,25 @@ function HomePage({ setCurrentPage }) {
           </div>
 
           <div className="quick-grid">
-            <button onClick={() => setCurrentPage("formulas")}>查公式</button>
-            <button onClick={() => setCurrentPage("calculators")}>做計算</button>
-            <button onClick={() => setCurrentPage("chart")}>畫圖表</button>
-            <button onClick={() => setCurrentPage("cases")}>看案例</button>
-            <button onClick={() => setCurrentPage("path")}>學習路線</button>
+            <button type="button" onClick={() => navigate("formulas")}>
+              查公式
+            </button>
+
+            <button type="button" onClick={() => navigate("calculators")}>
+              做計算
+            </button>
+
+            <button type="button" onClick={() => navigate("chart")}>
+              畫圖表
+            </button>
+
+            <button type="button" onClick={() => navigate("cases")}>
+              看案例
+            </button>
+
+            <button type="button" onClick={() => navigate("path")}>
+              學習路線
+            </button>
           </div>
         </div>
       </section>
@@ -151,28 +212,28 @@ function HomePage({ setCurrentPage }) {
             icon={Map}
             title="統計知識地圖"
             text="用分類方式整理統計學所有核心內容，並支援搜尋與主題詳情。"
-            onClick={() => setCurrentPage("map")}
+            onClick={() => navigate("map")}
           />
 
           <FeatureCard
             icon={FunctionSquare}
             title="公式庫"
             text="集中整理常用統計公式、符號說明、使用場景與注意事項。"
-            onClick={() => setCurrentPage("formulas")}
+            onClick={() => navigate("formulas")}
           />
 
           <FeatureCard
             icon={FlaskConical}
             title="方法選擇器"
             text="根據研究目的、數據類型、樣本關係和分佈情況推薦合適方法。"
-            onClick={() => setCurrentPage("methods")}
+            onClick={() => navigate("methods")}
           />
 
           <FeatureCard
             icon={Calculator}
             title="統計計算器"
             text="包含平均數、標準差、相關係數、回歸、t-test、卡方和置信區間。"
-            onClick={() => setCurrentPage("calculators")}
+            onClick={() => navigate("calculators")}
           />
         </div>
       </section>
@@ -182,7 +243,7 @@ function HomePage({ setCurrentPage }) {
 
 function FeatureCard({ icon: Icon, title, text, onClick }) {
   return (
-    <button className="feature-card" onClick={onClick}>
+    <button className="feature-card" type="button" onClick={onClick}>
       <div className="card-icon">
         <Icon size={24} />
       </div>
