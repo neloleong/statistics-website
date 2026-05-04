@@ -215,12 +215,12 @@ export const calculators = [
       "ANOVA 只能告訴你至少有一組不同，不能直接指出哪兩組不同。正式分析通常需要進一步做事後比較。"
   },
 
-  {
+    {
     id: "sample-size-calculator",
     name: "樣本量計算器",
     englishName: "Sample Size Calculator",
     category: "研究設計",
-    status: "planned",
+    status: "available",
     difficulty: "進階",
     description:
       "根據信心水平、誤差範圍、母體比例或標準差，估計研究或問卷所需樣本量。",
@@ -231,9 +231,15 @@ export const calculators = [
       "估計比例或平均數所需樣本數"
     ],
     inputs: ["信心水平", "允許誤差", "預估比例或標準差", "母體大小，可選"],
-    outputs: ["建議樣本量", "有限母體修正後樣本量", "計算假設說明"],
+    outputs: [
+      "未修正樣本量",
+      "有限母體修正後樣本量",
+      "Z 臨界值",
+      "建議樣本量",
+      "計算假設說明"
+    ],
     warning:
-      "樣本量估算只是一個規劃工具，實際研究仍應考慮抽樣方法、回收率、分層比例及研究設計。"
+      "樣本量估算只是一個規劃工具，實際研究仍應考慮抽樣方法、回收率、分層比例、無效問卷比例及研究設計。"
   },
 
   {
