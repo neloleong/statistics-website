@@ -15,6 +15,8 @@ import SampleSizeCalculator from "../calculators/SampleSizeCalculator";
 import ZScoreCalculator from "../calculators/ZScoreCalculator";
 import CronbachAlphaCalculator from "../calculators/CronbachAlphaCalculator";
 import ANOVACalculator from "../calculators/ANOVACalculator";
+import ProbabilityCalculator from "../calculators/ProbabilityCalculator";
+import LogisticRegressionHelper from "../calculators/LogisticRegressionHelper";
 
 const calculatorComponents = {
   "mean-calculator": MeanCalculator,
@@ -28,7 +30,9 @@ const calculatorComponents = {
   "sample-size-calculator": SampleSizeCalculator,
   "z-score-calculator": ZScoreCalculator,
   "cronbach-alpha-calculator": CronbachAlphaCalculator,
-  "anova-calculator": ANOVACalculator
+  "anova-calculator": ANOVACalculator,
+  "probability-calculator": ProbabilityCalculator,
+  "logistic-regression-helper": LogisticRegressionHelper
 };
 
 function CalculatorPage() {
@@ -58,7 +62,7 @@ function CalculatorPage() {
         <p className="page-description">
           選擇需要的統計工具，輸入資料後即可快速計算平均數、標準差、相關係數、
           線性回歸、t 檢定、卡方檢定、置信區間、A/B Testing、樣本量估算、
-          z-score、Cronbach's Alpha 及 ANOVA 等結果。
+          z-score、Cronbach's Alpha、ANOVA、機率分佈及 Logistic 回歸解釋等結果。
         </p>
       </section>
 

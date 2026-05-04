@@ -298,25 +298,38 @@ export const calculators = [
     warning:
       "z-score 的解釋通常假設資料接近正態分佈。若資料高度偏態，應配合箱型圖、四分位距和專業判斷一起使用。"
   },
-  {
-    id: "probability-calculator",
-    name: "機率分佈計算器",
-    englishName: "Probability Distribution Calculator",
-    category: "機率論",
-    status: "planned",
+        {
+    id: "logistic-regression-helper",
+    name: "Logistic 回歸解釋工具",
+    englishName: "Logistic Regression Helper",
+    category: "回歸分析",
+    status: "available",
     difficulty: "進階",
     description:
-      "用於計算常見機率分佈，例如二項分佈、泊松分佈和正態分佈的基本機率。",
+      "協助理解 Logistic 回歸輸出，包括勝算比 Odds Ratio、係數方向、預測機率和分類結果。",
     useCases: [
-      "計算成功次數的機率",
-      "計算一定時間內事件發生次數的機率",
-      "理解正態分佈下的區間機率",
-      "輔助統計推論與假設檢定學習"
+      "分析是否購買、是否通過、是否復發等二分類結果",
+      "解釋 Odds Ratio",
+      "輔助醫學、商業、社會科學中的二分類模型分析",
+      "理解分類模型的輸出結果"
     ],
-    inputs: ["分佈類型", "分佈參數", "目標數值或區間"],
-    outputs: ["機率值", "累積機率", "分佈解釋"],
+    inputs: [
+      "模型截距",
+      "回歸係數",
+      "自變量數值",
+      "分類門檻"
+    ],
+    outputs: [
+      "Logit 值",
+      "預測機率",
+      "Odds 勝算",
+      "Odds Ratio",
+      "分類結果",
+      "係數方向解釋",
+      "勝算比解釋"
+    ],
     warning:
-      "不同分佈有不同前提，例如二項分佈需要固定試驗次數與成功機率，泊松分佈適合稀有事件次數。"
+      "Logistic 回歸正式分析需要檢查樣本量、變量編碼、模型適配度、多重共線性、ROC/AUC、混淆矩陣及分類門檻設定。"
   },
 
   {
