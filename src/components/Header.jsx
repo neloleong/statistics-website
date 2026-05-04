@@ -14,6 +14,8 @@ const defaultNavItems = [
 
 function Header({ currentPage = "home", setCurrentPage, navItems = defaultNavItems }) {
   function handleNavigate(pageId) {
+    window.location.hash = pageId;
+
     if (typeof setCurrentPage === "function") {
       setCurrentPage(pageId);
     }

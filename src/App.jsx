@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Calculator,
   FlaskConical,
@@ -21,20 +21,39 @@ import CaseLibraryPage from "./pages/CaseLibraryPage";
 import GlossaryPage from "./pages/GlossaryPage";
 import LearningPathPage from "./pages/LearningPathPage";
 
+function getInitialPage() {
+  const hash = window.location.hash.replace("#", "");
+
+  if (!hash) {
+    return "home";
+  }
+
+  return hash;
+}
+
 function App() {
-  const [currentPage, setCurrentPage] = useState("home");
+  const [currentPage, setCurrentPage] = useState(getInitialPage);
   const [selectedTopic, setSelectedTopic] = useState(null);
 
-  function openTopicDetail(topic) {
-    setSelectedTopic(topic);
-    setCurrentPage("topic-detail");
-  }
+  useEffect(() => {
+    function handleHashChange() {
+      const nextPage = getInitialPage();
+      setCurrentPage(nextPage);
 
-  function backToKnowledgeMap() {
-    setCurrentPage("map");
-  }
+      if (nextPage !== "topic-detail") {
+        setSelectedTopic(null);
+      }
+    }
 
-  function handleSetCurrentPage(pageId) {
+    window.addEventListener("hashchange", handleHashChange);
+
+    return () => {
+      window.removeEventListener("hashchange", handleHashChange);
+    };
+  }, []);
+
+  function changePage(pageId) {
+    window.location.hash = pageId;
     setCurrentPage(pageId);
 
     if (pageId !== "topic-detail") {
@@ -42,8 +61,19 @@ function App() {
     }
   }
 
+  function openTopicDetail(topic) {
+    setSelectedTopic(topic);
+    window.location.hash = "topic-detail";
+    setCurrentPage("topic-detail");
+  }
+
+  function backToKnowledgeMap() {
+    window.location.hash = "map";
+    setCurrentPage("map");
+  }
+
   const pageMap = {
-    home: <HomePage setCurrentPage={handleSetCurrentPage} />,
+    home: <HomePage setCurrentPage={changePage} />,
     map: <KnowledgeMapPage onOpenTopic={openTopicDetail} />,
     "topic-detail": (
       <TopicDetailPage topic={selectedTopic} onBack={backToKnowledgeMap} />
@@ -59,7 +89,7 @@ function App() {
 
   return (
     <div className="app">
-      <Header currentPage={currentPage} setCurrentPage={handleSetCurrentPage} />
+      <Header currentPage={currentPage} setCurrentPage={changePage} />
 
       <main>{pageMap[currentPage] || pageMap.home}</main>
 
