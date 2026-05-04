@@ -242,12 +242,12 @@ export const calculators = [
       "樣本量估算只是一個規劃工具，實際研究仍應考慮抽樣方法、回收率、分層比例、無效問卷比例及研究設計。"
   },
 
-  {
+    {
     id: "cronbach-alpha-calculator",
     name: "Cronbach's Alpha 信度計算器",
     englishName: "Cronbach's Alpha Calculator",
     category: "問卷分析",
-    status: "planned",
+    status: "available",
     difficulty: "進階",
     description:
       "用於評估問卷量表多個題項之間的一致性，常見於心理學、教育研究、市場調查和服務滿意度研究。",
@@ -258,17 +258,25 @@ export const calculators = [
       "社會科學與市場研究"
     ],
     inputs: ["多位受訪者對多個題項的評分資料"],
-    outputs: ["Cronbach's Alpha", "題項數量", "受訪者數量", "信度解釋"],
+    outputs: [
+      "Cronbach's Alpha",
+      "信度水平",
+      "題項數量",
+      "受訪者數量",
+      "題項平均值",
+      "題項方差",
+      "信度解釋"
+    ],
     warning:
-      "Alpha 值過低代表題項一致性不足；但 Alpha 值過高亦可能代表題項重複性太強。"
+      "Alpha 值過低代表題項一致性不足；但 Alpha 值過高亦可能代表題項重複性太強。Cronbach's Alpha 不能單獨證明問卷有效，仍需配合效度分析和因素分析。"
   },
 
-  {
+     {
     id: "z-score-calculator",
     name: "z-score 標準分數計算器",
     englishName: "Z-Score Calculator",
     category: "描述統計",
-    status: "planned",
+    status: "available",
     difficulty: "基礎",
     description:
       "根據原始分數、平均數和標準差，計算 z-score，判斷某個數值相對於整體資料的位置。",
@@ -279,11 +287,16 @@ export const calculators = [
       "理解正態分佈中的位置"
     ],
     inputs: ["原始分數", "平均數", "標準差"],
-    outputs: ["z-score", "相對位置解釋", "是否可能為離群值"],
+    outputs: [
+      "z-score",
+      "距離平均數多少個標準差",
+      "相對位置解釋",
+      "粗略百分位理解",
+      "是否可能為離群值"
+    ],
     warning:
-      "z-score 的解釋通常假設資料接近正態分佈。若資料高度偏態，應小心使用。"
+      "z-score 的解釋通常假設資料接近正態分佈。若資料高度偏態，應配合箱型圖、四分位距和專業判斷一起使用。"
   },
-
   {
     id: "probability-calculator",
     name: "機率分佈計算器",

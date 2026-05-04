@@ -12,6 +12,8 @@ import ChiSquareCalculator from "../calculators/ChiSquareCalculator";
 import ConfidenceIntervalCalculator from "../calculators/ConfidenceIntervalCalculator";
 import ABTestCalculator from "../calculators/ABTestCalculator";
 import SampleSizeCalculator from "../calculators/SampleSizeCalculator";
+import ZScoreCalculator from "../calculators/ZScoreCalculator";
+import CronbachAlphaCalculator from "../calculators/CronbachAlphaCalculator";
 
 const calculatorComponents = {
   "mean-calculator": MeanCalculator,
@@ -22,7 +24,9 @@ const calculatorComponents = {
   "chi-square-calculator": ChiSquareCalculator,
   "confidence-interval-calculator": ConfidenceIntervalCalculator,
   "ab-test-calculator": ABTestCalculator,
-  "sample-size-calculator": SampleSizeCalculator
+  "sample-size-calculator": SampleSizeCalculator,
+  "z-score-calculator": ZScoreCalculator,
+  "cronbach-alpha-calculator": CronbachAlphaCalculator
 };
 
 function CalculatorPage() {
@@ -51,7 +55,8 @@ function CalculatorPage() {
         <h1 className="page-title">統計計算器</h1>
         <p className="page-description">
           選擇需要的統計工具，輸入資料後即可快速計算平均數、標準差、相關係數、
-          線性回歸、t 檢定、卡方檢定、置信區間、A/B Testing 及樣本量估算等結果。
+          線性回歸、t 檢定、卡方檢定、置信區間、A/B Testing、樣本量估算、
+          z-score 及 Cronbach's Alpha 等結果。
         </p>
       </section>
 
