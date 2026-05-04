@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Calculator, Clock, CheckCircle2 } from "lucide-react";
 
 import { calculators } from "../data/calculators";
+import { calculatorGuides } from "../data/calculatorGuides";
 
 import MeanCalculator from "../calculators/MeanCalculator";
 import StandardDeviationCalculator from "../calculators/StandardDeviationCalculator";
@@ -85,6 +86,8 @@ function CalculatorPage({ initialCalculatorId, navigate }) {
   const activeCalculator = calculators.find(
     (item) => item.id === activeCalculatorId
   );
+
+  const activeGuide = calculatorGuides[activeCalculatorId];
 
   const ActiveCalculatorComponent = calculatorComponents[activeCalculatorId];
 
@@ -179,6 +182,10 @@ function CalculatorPage({ initialCalculatorId, navigate }) {
               </div>
             )}
           </div>
+
+          {activeGuide ? (
+            <CalculatorGuideBox guide={activeGuide} />
+          ) : null}
         </section>
       </section>
 
@@ -225,6 +232,47 @@ function CalculatorPage({ initialCalculatorId, navigate }) {
         </div>
       </section>
     </div>
+  );
+}
+
+function CalculatorGuideBox({ guide }) {
+  return (
+    <section className="calculator-guide-box">
+      <div className="section-heading">
+        <div className="page-eyebrow">How to Use</div>
+        <h2 className="section-title">{guide.title}</h2>
+        <p className="section-description">
+          以下內容可幫助你理解這個工具適合什麼情況、如何輸入資料，以及如何解讀結果。
+        </p>
+      </div>
+
+      <div className="calculator-guide-grid">
+        <GuideCard title="適合什麼情況" items={guide.suitableFor} />
+        <GuideCard title="不適合什麼情況" items={guide.notSuitableFor} />
+        <GuideCard title="輸入格式" items={guide.inputFormat} />
+        <GuideCard title="結果如何解讀" items={guide.interpretation} />
+        <GuideCard title="常見錯誤" items={guide.commonMistakes} />
+        <GuideCard title="正式研究注意事項" items={guide.researchNotes} />
+      </div>
+    </section>
+  );
+}
+
+function GuideCard({ title, items }) {
+  if (!items?.length) {
+    return null;
+  }
+
+  return (
+    <article className="tool-info-card">
+      <h3>{title}</h3>
+
+      <ul className="tool-output-list">
+        {items.map((item) => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>
+    </article>
   );
 }
 
