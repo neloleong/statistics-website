@@ -1,0 +1,211 @@
+export const examples = [
+  {
+    id: "education-test-score",
+    industry: "教育統計",
+    title: "比較兩種教學方法的學生成績",
+    problem: "學校想知道互動式教學是否比傳統教學更有效。",
+    dataSituation: "A 班使用傳統教學，B 班使用互動式教學，兩班學生互相獨立，成績為連續型數據。",
+    recommendedMethod: "獨立樣本 t 檢定",
+    reason: "因為研究目標是比較兩組獨立樣本的平均成績是否不同。",
+    interpretation: "如果 p-value < 0.05，可認為兩種教學方法下的平均成績存在顯著差異。",
+    caution: "仍需檢查兩班學生基礎水平是否相近，避免把原有能力差異誤認為教學方法效果。"
+  },
+  {
+    id: "education-before-after",
+    industry: "教育統計",
+    title: "補習前後成績是否提升",
+    problem: "培訓機構想知道學生參加補習後，成績是否有明顯提升。",
+    dataSituation: "同一批學生有補習前和補習後兩次考試分數。",
+    recommendedMethod: "配對樣本 t 檢定",
+    reason: "因為是同一批學生前後比較，兩組數據存在配對關係。",
+    interpretation: "如果 p-value < 0.05，可認為補習前後平均成績存在顯著差異。",
+    caution: "仍需注意是否有考試難度變化、學生自行溫習等外部因素。"
+  },
+  {
+    id: "education-three-methods",
+    industry: "教育統計",
+    title: "三種教學模式效果比較",
+    problem: "學校想比較傳統教學、線上教學和混合教學三種方式的效果。",
+    dataSituation: "三組不同學生分別接受三種教學模式，結果為期末成績。",
+    recommendedMethod: "單因子 ANOVA",
+    reason: "因為要比較三組或以上獨立樣本的平均數。",
+    interpretation: "如果 ANOVA 結果顯著，代表至少有兩組教學模式的平均成績不同。",
+    caution: "ANOVA 顯著後仍需做事後比較，才知道是哪兩組之間有差異。"
+  },
+  {
+    id: "business-ab-test",
+    industry: "商業分析",
+    title: "會員優惠是否提高平均消費",
+    problem: "商店推出會員優惠後，想知道會員平均消費是否提升。",
+    dataSituation: "同一批會員在活動前後各有一次消費紀錄。",
+    recommendedMethod: "配對樣本 t 檢定",
+    reason: "因為是同一批會員前後比較，數據存在配對關係。",
+    interpretation: "如果 p-value < 0.05，可認為活動前後平均消費存在顯著差異。",
+    caution: "如果活動期間還有其他促銷或季節因素，可能影響結果。"
+  },
+  {
+    id: "business-conversion-ab",
+    industry: "A/B Testing",
+    title: "兩個落地頁版本的轉化率比較",
+    problem: "公司想知道新版落地頁是否比舊版有更高的購買轉化率。",
+    dataSituation: "A 版有 5000 次訪問、150 次購買；B 版有 5200 次訪問、190 次購買。",
+    recommendedMethod: "兩比例 z 檢定",
+    reason: "因為比較的是兩組轉化比例，而不是平均數。",
+    interpretation: "如果 p-value < 0.05，可認為兩個版本的轉化率存在統計顯著差異。",
+    caution: "A/B 測試需要確保流量隨機分配，且測試期間沒有其他重大活動干擾。"
+  },
+  {
+    id: "business-sales-regression",
+    industry: "市場營銷",
+    title: "廣告費如何影響銷售額",
+    problem: "企業想知道增加廣告費是否能帶來更高銷售額。",
+    dataSituation: "每月記錄廣告費和銷售額，兩者均為連續型數據。",
+    recommendedMethod: "線性回歸",
+    reason: "因為目標是用廣告費預測銷售額，並量化影響程度。",
+    interpretation: "回歸係數表示廣告費每增加一個單位，銷售額平均改變多少。",
+    caution: "需注意節假日、價格調整、競爭對手活動等混淆因素。"
+  },
+  {
+    id: "business-customer-segmentation",
+    industry: "商業分析",
+    title: "客戶分群與消費行為分析",
+    problem: "公司想把客戶分成不同類型，方便制定差異化營銷策略。",
+    dataSituation: "資料包括客戶年齡、消費次數、平均客單價、回購頻率等多個變量。",
+    recommendedMethod: "聚類分析",
+    reason: "因為目標不是檢定差異，而是根據多個特徵把客戶分為自然群組。",
+    interpretation: "聚類結果可用於識別高價值客戶、價格敏感客戶、沉睡客戶等。",
+    caution: "聚類結果受變量選擇、標準化方式和群數設定影響很大。"
+  },
+  {
+    id: "medical-recovery-rate",
+    industry: "醫學統計",
+    title: "新藥是否提高病人康復率",
+    problem: "研究人員想知道新藥組和對照組的康復比例是否不同。",
+    dataSituation: "病人分為新藥組和對照組，結果為康復或未康復。",
+    recommendedMethod: "卡方檢定",
+    reason: "因為兩個變量都是分類變量：治療組別與康復結果。",
+    interpretation: "如果 p-value < 0.05，可認為治療方式與康復結果存在顯著關聯。",
+    caution: "如果樣本量太小，應考慮 Fisher's Exact Test。"
+  },
+  {
+    id: "medical-small-sample",
+    industry: "醫學統計",
+    title: "小樣本治療組與對照組比較",
+    problem: "一項小型臨床研究想比較治療組與對照組的有效率是否不同。",
+    dataSituation: "治療組 8 人中 6 人有效，對照組 7 人中 2 人有效。",
+    recommendedMethod: "Fisher 精確檢定",
+    reason: "因為樣本量很小，普通卡方檢定的期望頻數可能不足。",
+    interpretation: "如果 p-value < 0.05，可認為兩組有效率存在顯著差異。",
+    caution: "小樣本研究結論不穩定，最好配合更大樣本研究驗證。"
+  },
+  {
+    id: "medical-survival",
+    industry: "醫學統計",
+    title: "病人治療後復發時間分析",
+    problem: "醫生想知道不同治療方式下，病人復發時間是否不同。",
+    dataSituation: "資料包括病人治療後到復發的時間，有些病人在研究結束時尚未復發。",
+    recommendedMethod: "生存分析",
+    reason: "因為結果是時間到事件資料，而且存在截尾資料。",
+    interpretation: "可用 Kaplan-Meier 曲線比較不同治療組的生存率，或用 Cox 回歸分析風險因素。",
+    caution: "不能簡單把未復發病人當成沒有事件，需要正確處理截尾。"
+  },
+  {
+    id: "survey-satisfaction",
+    industry: "問卷分析",
+    title: "服務滿意度與再次購買意願的關係",
+    problem: "公司想知道滿意度越高，客戶是否越可能再次購買。",
+    dataSituation: "問卷收集滿意度分數與再次購買意願分數。",
+    recommendedMethod: "相關分析或回歸分析",
+    reason: "如果只想看關係強度，可用相關分析；如果想預測，可用回歸分析。",
+    interpretation: "相關係數越接近 1，表示正向關係越強。",
+    caution: "問卷分數若屬於等級資料，可考慮 Spearman 相關。"
+  },
+  {
+    id: "survey-cronbach-alpha",
+    industry: "問卷分析",
+    title: "顧客滿意度量表是否可靠",
+    problem: "公司設計了 6 條滿意度題目，想知道這些題目是否能穩定測量同一概念。",
+    dataSituation: "每位顧客對 6 條題目進行 1 至 5 分評分。",
+    recommendedMethod: "Cronbach's Alpha",
+    reason: "因為要檢查多個問卷題項之間的內部一致性。",
+    interpretation: "Alpha 較高通常代表題項之間一致性較好，但過高可能代表題項重複。",
+    caution: "Alpha 高不代表量表一定有效，仍需檢查效度和題項內容。"
+  },
+  {
+    id: "survey-factor-analysis",
+    industry: "問卷分析",
+    title: "服務品質問卷的構面探索",
+    problem: "研究者設計了 20 條服務品質題目，想知道背後可分成哪些維度。",
+    dataSituation: "大量受訪者對 20 條題目評分，研究者不知道題目背後有多少潛在因素。",
+    recommendedMethod: "探索性因素分析",
+    reason: "因為目標是探索多個題項背後的潛在構面。",
+    interpretation: "因素負荷量可幫助判斷哪些題項屬於同一個因素。",
+    caution: "因素分析前應檢查 KMO 和 Bartlett 球形檢定。"
+  },
+  {
+    id: "finance-risk",
+    industry: "金融統計",
+    title: "投資回報率波動分析",
+    problem: "投資者想了解某資產的回報是否穩定。",
+    dataSituation: "收集每日或每月投資回報率。",
+    recommendedMethod: "描述統計與時間序列分析",
+    reason: "先用平均數、標準差理解回報與風險，再分析時間趨勢。",
+    interpretation: "標準差越大，代表回報波動越大，風險越高。",
+    caution: "過去波動不一定完全代表未來風險。"
+  },
+  {
+    id: "finance-volatility",
+    industry: "金融統計",
+    title: "股票波動率建模",
+    problem: "投資者想預測股票或匯率未來波動風險。",
+    dataSituation: "資料為每日收益率，波動在某些時期明顯集中出現。",
+    recommendedMethod: "GARCH 模型",
+    reason: "因為金融時間序列常存在波動聚集現象，GARCH 適合建模條件波動率。",
+    interpretation: "模型可估計未來波動風險，用於風險管理和資產配置。",
+    caution: "GARCH 模型較高階，需注意收益率平穩性和模型診斷。"
+  },
+  {
+    id: "time-series-sales",
+    industry: "時間序列",
+    title: "未來 12 個月銷售額預測",
+    problem: "企業想根據過往月度銷售資料預測未來一年銷售額。",
+    dataSituation: "資料為連續多年的月度銷售額，存在季節性波動。",
+    recommendedMethod: "ARIMA / SARIMA",
+    reason: "因為資料按時間排列，且可能存在趨勢和季節性。",
+    interpretation: "模型可產生未來月份預測值和預測區間。",
+    caution: "時間序列預測需要檢查趨勢、季節性和平穩性。"
+  },
+  {
+    id: "machine-learning-classification",
+    industry: "機器學習統計",
+    title: "分類模型是否有效",
+    problem: "公司建立了一個模型預測用戶是否會流失，想評估模型表現。",
+    dataSituation: "資料包括模型預測結果和真實流失結果，結果為二分類。",
+    recommendedMethod: "混淆矩陣、Precision、Recall、F1、ROC/AUC",
+    reason: "因為二分類模型不能只看準確率，尤其流失客戶比例不平衡時。",
+    interpretation: "Recall 高代表能找出更多真正流失用戶，Precision 高代表預測為流失的用戶中較多是真的。",
+    caution: "不同業務場景對 Precision 和 Recall 的重視程度不同。"
+  },
+  {
+    id: "machine-learning-overfitting",
+    industry: "機器學習統計",
+    title: "模型訓練表現好但測試表現差",
+    problem: "模型在訓練資料上準確率很高，但在新資料上效果很差。",
+    dataSituation: "訓練集表現明顯優於測試集，模型複雜度較高。",
+    recommendedMethod: "交叉驗證與偏差-方差分析",
+    reason: "因為這通常是過擬合問題，需要評估模型泛化能力。",
+    interpretation: "若交叉驗證表現不穩定，代表模型可能對資料切分非常敏感。",
+    caution: "可以考慮正則化、簡化模型、增加資料或調整特徵。"
+  },
+  {
+    id: "public-policy-survey",
+    industry: "社會科學",
+    title: "不同年齡層對政策支持度是否不同",
+    problem: "研究者想知道不同年齡層市民對某項政策的支持程度是否有差異。",
+    dataSituation: "市民按年齡分為青年、中年、長者三組，支持度為 1 至 5 分。",
+    recommendedMethod: "Kruskal-Wallis 檢定或 ANOVA",
+    reason: "如果把 Likert 分數視為等級資料，可用 Kruskal-Wallis；若近似連續且符合條件，可用 ANOVA。",
+    interpretation: "如果結果顯著，表示不同年齡層的支持度分佈可能存在差異。",
+    caution: "Likert 量表是否可視為連續資料需根據研究習慣與資料分佈判斷。"
+  }
+];
