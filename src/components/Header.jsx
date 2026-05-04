@@ -32,7 +32,7 @@ function Header({ currentPage = "home", navigate }) {
         >
           <div className="brand-mark">Σ</div>
           <div>
-            <div className="brand-title">StatMap</div>
+            <div className="brand-title">MTS'StatMap</div>
             <div className="brand-subtitle">統計學全景平台</div>
           </div>
         </button>
