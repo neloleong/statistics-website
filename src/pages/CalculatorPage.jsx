@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Calculator, Clock, CheckCircle2 } from "lucide-react";
 
 import { calculators } from "../data/calculators";
@@ -35,7 +35,7 @@ const calculatorComponents = {
   "logistic-regression-helper": LogisticRegressionHelper
 };
 
-function CalculatorPage() {
+function CalculatorPage({ initialCalculatorId, navigate }) {
   const availableCalculators = useMemo(() => {
     return calculators.filter((item) => item.status === "available");
   }, []);
@@ -44,15 +44,69 @@ function CalculatorPage() {
     return calculators.filter((item) => item.status !== "available");
   }, []);
 
-  const [activeCalculatorId, setActiveCalculatorId] = useState(
-    availableCalculators[0]?.id || "mean-calculator"
-  );
+  const defaultCalculatorId = availableCalculators[0]?.id || "mean-calculator";
+
+  const [activeCalculatorId, setActiveCalculatorId] = useState(() => {
+    const hasInitialCalculator =
+      initialCalculatorId &&
+      calculators.some(
+        (item) =>
+          item.id === initialCalculatorId && item.status === "available"
+      );
+
+    return hasInitialCalculator ? initialCalculatorId : defaultCalculatorId;
+  });
+
+  useEffect(() => {
+    if (!initialCalculatorId) {
+      return;
+    }
+
+    const hasCalculator = calculators.some(
+      (item) =>
+        item.id === initialCalculatorId && item.status === "available"
+    );
+
+    if (hasCalculator) {
+      setActiveCalculatorId(initialCalculatorId);
+
+      setTimeout(() => {
+        const target = document.querySelector(".calculator-main-panel");
+        if (target) {
+          target.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+        }
+      }, 80);
+    }
+  }, [initialCalculatorId]);
 
   const activeCalculator = calculators.find(
     (item) => item.id === activeCalculatorId
   );
 
   const ActiveCalculatorComponent = calculatorComponents[activeCalculatorId];
+
+  function selectCalculator(calculatorId) {
+    setActiveCalculatorId(calculatorId);
+
+    if (typeof navigate === "function") {
+      navigate("calculators", calculatorId);
+    } else {
+      window.location.hash = `calculators/${calculatorId}`;
+    }
+
+    setTimeout(() => {
+      const target = document.querySelector(".calculator-main-panel");
+      if (target) {
+        target.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      }
+    }, 80);
+  }
 
   return (
     <div className="container calculator-page">
@@ -62,7 +116,7 @@ function CalculatorPage() {
         <p className="page-description">
           選擇需要的統計工具，輸入資料後即可快速計算平均數、標準差、相關係數、
           線性回歸、t 檢定、卡方檢定、置信區間、A/B Testing、樣本量估算、
-          z-score、Cronbach's Alpha、ANOVA、機率分佈及 Logistic 回歸解釋等結果。
+          z-score、Cronbach&apos;s Alpha、ANOVA、機率分佈及 Logistic 回歸解釋等結果。
         </p>
       </section>
 
@@ -83,7 +137,7 @@ function CalculatorPage() {
                     ? "calculator-nav-item active"
                     : "calculator-nav-item"
                 }
-                onClick={() => setActiveCalculatorId(item.id)}
+                onClick={() => selectCalculator(item.id)}
               >
                 <span>{item.name}</span>
                 <small>{item.englishName}</small>
@@ -101,6 +155,7 @@ function CalculatorPage() {
                     <CheckCircle2 size={14} />
                     可使用
                   </span>
+
                   <span className="difficulty-badge">
                     {activeCalculator.difficulty}
                   </span>
@@ -143,7 +198,7 @@ function CalculatorPage() {
               item={item}
               statusLabel="可使用"
               statusType="available"
-              onClick={() => setActiveCalculatorId(item.id)}
+              onClick={() => selectCalculator(item.id)}
             />
           ))}
         </div>
@@ -177,7 +232,9 @@ function CalculatorInfoCard({ item, statusLabel, statusType, onClick }) {
   const clickable = typeof onClick === "function";
 
   return (
-    <article className={clickable ? "tool-info-card clickable" : "tool-info-card"}>
+    <article
+      className={clickable ? "tool-info-card clickable" : "tool-info-card"}
+    >
       <div className="tool-card-top">
         <span
           className={

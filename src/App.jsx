@@ -43,51 +43,77 @@ const validPages = [
   "disclaimer"
 ];
 
-function getInitialPage() {
+function parseHash() {
   const hash = window.location.hash.replace("#", "").trim();
 
   if (!hash) {
-    return "home";
+    return {
+      page: "home",
+      param: null
+    };
   }
 
-  if (validPages.includes(hash)) {
-    return hash;
+  const parts = hash.split("/").filter(Boolean);
+  const page = parts[0];
+  const param = parts[1] || null;
+
+  if (validPages.includes(page)) {
+    return {
+      page,
+      param
+    };
   }
 
-  return "home";
+  return {
+    page: "home",
+    param: null
+  };
 }
 
 function App() {
-  const [currentPage, setCurrentPage] = useState(getInitialPage);
+  const initialRoute = parseHash();
+
+  const [currentPage, setCurrentPage] = useState(initialRoute.page);
+  const [routeParam, setRouteParam] = useState(initialRoute.param);
   const [selectedTopic, setSelectedTopic] = useState(null);
 
   useEffect(() => {
     function handleHashChange() {
-      const nextPage = getInitialPage();
-      setCurrentPage(nextPage);
+      const nextRoute = parseHash();
 
-      if (nextPage !== "topic-detail") {
+      setCurrentPage(nextRoute.page);
+      setRouteParam(nextRoute.param);
+
+      if (nextRoute.page !== "topic-detail") {
         setSelectedTopic(null);
       }
     }
 
     window.addEventListener("hashchange", handleHashChange);
 
+    if (!window.location.hash) {
+      window.location.hash = "home";
+    }
+
     return () => {
       window.removeEventListener("hashchange", handleHashChange);
     };
   }, []);
 
-  function navigate(pageId) {
+  function navigate(pageId, param = null) {
     if (!validPages.includes(pageId)) {
       window.location.hash = "home";
       setCurrentPage("home");
+      setRouteParam(null);
       setSelectedTopic(null);
       return;
     }
 
-    window.location.hash = pageId;
+    const nextHash = param ? `${pageId}/${param}` : pageId;
+
+    window.location.hash = nextHash;
     setCurrentPage(pageId);
+    setRouteParam(param);
 
     if (pageId !== "topic-detail") {
       setSelectedTopic(null);
@@ -96,6 +122,7 @@ function App() {
 
   function openTopicDetail(topic) {
     setSelectedTopic(topic);
+    setRouteParam(null);
     window.location.hash = "topic-detail";
     setCurrentPage("topic-detail");
   }
@@ -103,24 +130,43 @@ function App() {
   function backToKnowledgeMap() {
     window.location.hash = "map";
     setCurrentPage("map");
+    setRouteParam(null);
   }
 
   const pageMap = {
     home: <HomePage navigate={navigate} />,
+
     map: <KnowledgeMapPage onOpenTopic={openTopicDetail} />,
+
     "topic-detail": (
       <TopicDetailPage topic={selectedTopic} onBack={backToKnowledgeMap} />
     ),
+
     formulas: <FormulaLibraryPage />,
-    methods: <MethodSelectorPage />,
-    calculators: <CalculatorPage />,
+
+    methods: <MethodSelectorPage navigate={navigate} />,
+
+    calculators: (
+      <CalculatorPage
+        navigate={navigate}
+        initialCalculatorId={routeParam}
+      />
+    ),
+
     chart: <ChartToolPage />,
+
     cases: <CaseLibraryPage />,
+
     glossary: <GlossaryPage />,
+
     path: <LearningPathPage />,
+
     about: <AboutPage />,
+
     contact: <ContactPage />,
+
     privacy: <PrivacyPage />,
+
     disclaimer: <DisclaimerPage />
   };
 

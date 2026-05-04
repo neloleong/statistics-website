@@ -98,6 +98,25 @@ const methodRules = [
       "此工具目前未提供計算器，可先作為方法選擇參考，正式分析可用 SPSS、R 或 Python。"
   },
   {
+    id: "wilcoxon",
+    methodName: "Wilcoxon 符號等級檢定",
+    englishName: "Wilcoxon Signed-Rank Test",
+    category: "非參數檢定",
+    calculatorId: null,
+    purpose: ["compare"],
+    groups: ["two"],
+    dataType: ["ordinal", "continuous"],
+    relation: ["paired"],
+    normality: ["non-normal"],
+    sampleSize: ["small", "medium", "large"],
+    description:
+      "用於比較同一批對象在兩個時間點的等級資料或非正態連續資料。",
+    reason:
+      "你的資料有配對關係，而且可能不符合正態分佈，因此可考慮 Wilcoxon 符號等級檢定。",
+    warning:
+      "此方法是配對樣本 t 檢定的非參數替代方法。"
+  },
+  {
     id: "kruskal-wallis",
     methodName: "Kruskal-Wallis 檢定",
     englishName: "Kruskal-Wallis Test",
@@ -359,7 +378,7 @@ function getScore(rule, form) {
   return score;
 }
 
-function MethodSelectorPage() {
+function MethodSelectorPage({ navigate }) {
   const [form, setForm] = useState({
     purpose: "compare",
     groups: "two",
@@ -389,8 +408,17 @@ function MethodSelectorPage() {
     }));
   }
 
-  function goToCalculator() {
-    window.location.hash = "calculators";
+  function goToCalculator(calculatorId) {
+    if (!calculatorId) {
+      return;
+    }
+
+    if (typeof navigate === "function") {
+      navigate("calculators", calculatorId);
+      return;
+    }
+
+    window.location.hash = `calculators/${calculatorId}`;
   }
 
   return (
@@ -503,6 +531,7 @@ function MethodSelectorPage() {
                   <CheckCircle2 size={14} />
                   最推薦
                 </span>
+
                 <span className="difficulty-badge">
                   {bestRecommendation.category}
                 </span>
@@ -528,14 +557,19 @@ function MethodSelectorPage() {
                 <button
                   type="button"
                   className="primary-btn"
-                  onClick={goToCalculator}
+                  onClick={() =>
+                    goToCalculator(bestRecommendation.calculatorId)
+                  }
                   style={{ marginTop: 18 }}
                 >
                   前往相關計算器
                   <ArrowRight size={16} style={{ marginLeft: 8 }} />
                 </button>
               ) : (
-                <div className="recommendation-warning" style={{ marginTop: 18 }}>
+                <div
+                  className="recommendation-warning"
+                  style={{ marginTop: 18 }}
+                >
                   目前網站未提供此方法的計算器，但可先作為方法選擇參考。
                 </div>
               )}
@@ -556,7 +590,8 @@ function MethodSelectorPage() {
           <div className="page-eyebrow">Alternative Methods</div>
           <h2 className="section-title">其他可能方法</h2>
           <p className="section-description">
-            系統會根據你的選擇列出相近方法，正式研究時可再結合研究設計、資料分佈和樣本量進一步確認。
+            系統會根據你的選擇列出相近方法，正式研究時可再結合研究設計、
+            資料分佈和樣本量進一步確認。
           </p>
         </div>
 
@@ -568,6 +603,17 @@ function MethodSelectorPage() {
               <p className="english-name">{method.englishName}</p>
               <p>{method.description}</p>
               <small>{method.warning}</small>
+
+              {method.calculatorId ? (
+                <button
+                  type="button"
+                  className="text-button"
+                  onClick={() => goToCalculator(method.calculatorId)}
+                  style={{ marginTop: 12 }}
+                >
+                  打開對應計算器
+                </button>
+              ) : null}
             </article>
           ))}
         </div>
@@ -580,7 +626,10 @@ function MethodSelectorPage() {
         </div>
 
         <div className="recommendation-warning">
-          <AlertTriangle size={18} style={{ verticalAlign: "middle", marginRight: 6 }} />
+          <AlertTriangle
+            size={18}
+            style={{ verticalAlign: "middle", marginRight: 6 }}
+          />
           本工具是學習與初步判斷用途，不能取代正式統計顧問或研究設計審查。
           正式論文、醫學研究、政府報告或商業決策，仍應使用專業統計軟件並由專業人士確認。
         </div>
