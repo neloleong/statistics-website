@@ -242,33 +242,34 @@ export const calculators = [
       "樣本量估算只是一個規劃工具，實際研究仍應考慮抽樣方法、回收率、分層比例、無效問卷比例及研究設計。"
   },
 
-    {
-    id: "cronbach-alpha-calculator",
-    name: "Cronbach's Alpha 信度計算器",
-    englishName: "Cronbach's Alpha Calculator",
-    category: "問卷分析",
+      {
+    id: "anova-calculator",
+    name: "單因子 ANOVA 計算器",
+    englishName: "One-Way ANOVA Calculator",
+    category: "假設檢定",
     status: "available",
     difficulty: "進階",
     description:
-      "用於評估問卷量表多個題項之間的一致性，常見於心理學、教育研究、市場調查和服務滿意度研究。",
+      "用於比較三組或以上平均數是否存在顯著差異，適合教學模式、治療方案、產品方案等多組比較。",
     useCases: [
-      "檢查滿意度量表是否可靠",
-      "檢查多個題項是否能共同測量同一構面",
-      "問卷研究中的信度分析",
-      "社會科學與市場研究"
+      "比較三種教學方法的成績差異",
+      "比較三種產品包裝對銷售額的影響",
+      "比較多個組別的問卷平均分",
+      "實驗設計與多組平均數分析"
     ],
-    inputs: ["多位受訪者對多個題項的評分資料"],
+    inputs: ["三組或以上數值資料"],
     outputs: [
-      "Cronbach's Alpha",
-      "信度水平",
-      "題項數量",
-      "受訪者數量",
-      "題項平均值",
-      "題項方差",
-      "信度解釋"
+      "組間平方和",
+      "組內平方和",
+      "總平方和",
+      "自由度",
+      "均方",
+      "F 值",
+      "ANOVA 表",
+      "各組平均數"
     ],
     warning:
-      "Alpha 值過低代表題項一致性不足；但 Alpha 值過高亦可能代表題項重複性太強。Cronbach's Alpha 不能單獨證明問卷有效，仍需配合效度分析和因素分析。"
+      "ANOVA 只能告訴你至少有一組可能不同，不能直接指出哪兩組不同。若結果顯著，正式分析通常需要進一步做事後比較。"
   },
 
      {
