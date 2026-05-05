@@ -28,7 +28,7 @@ function getVisitorKey() {
 function VisitorCounter() {
   const [totalVisits, setTotalVisits] = useState(null);
   const [todayVisits, setTodayVisits] = useState(null);
-  const [hasError, setHasError] = useState(false);
+  const [status, setStatus] = useState("loading");
 
   const displayTotal = useMemo(() => {
     if (typeof totalVisits !== "number") return "—";
@@ -43,7 +43,7 @@ function VisitorCounter() {
   useEffect(() => {
     async function recordVisitAndLoadStats() {
       if (!hasSupabaseConfig || !supabase) {
-        setHasError(true);
+        setStatus("missing-config");
         return;
       }
 
@@ -53,11 +53,17 @@ function VisitorCounter() {
         const currentHash = window.location.hash.replace("#", "") || "home";
         const page = currentHash.split("/")[0] || "home";
 
-        await supabase.from("site_visits").insert({
-          page,
-          visitor_key: visitorKey,
-          user_agent: navigator.userAgent
-        });
+        const { error: insertError } = await supabase
+          .from("site_visits")
+          .insert({
+            page,
+            visitor_key: visitorKey,
+            user_agent: navigator.userAgent
+          });
+
+        if (insertError) {
+          throw insertError;
+        }
 
         const { count: totalCount, error: totalError } = await supabase
           .from("site_visits")
@@ -86,17 +92,36 @@ function VisitorCounter() {
 
         setTotalVisits(totalCount || 0);
         setTodayVisits(todayCount || 0);
+        setStatus("ready");
       } catch (error) {
         console.error("Visitor counter error:", error);
-        setHasError(true);
+        setStatus("error");
       }
     }
 
     recordVisitAndLoadStats();
   }, []);
 
-  if (hasError) {
-    return null;
+  if (status === "missing-config") {
+    return (
+      <div className="visitor-counter">
+        <span>
+          <Eye size={14} />
+          瀏覽統計未連接
+        </span>
+      </div>
+    );
+  }
+
+  if (status === "error") {
+    return (
+      <div className="visitor-counter">
+        <span>
+          <Eye size={14} />
+          瀏覽統計暫時未能讀取
+        </span>
+      </div>
+    );
   }
 
   return (

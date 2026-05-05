@@ -15,6 +15,7 @@ function Footer({ navigate }) {
       <div className="container footer-inner">
         <div>
           <div className="footer-brand">MTS&apos; StatMap 統計學全景平台</div>
+
           <p>
             系統化整理統計概念、公式、方法、案例、文章及分析工具，
             協助使用者更快理解和應用統計學。
