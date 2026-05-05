@@ -29,6 +29,10 @@ function Footer({ navigate }) {
             統計文章
           </button>
 
+          <button type="button" onClick={() => handleNavigate("faq")}>
+            FAQ
+          </button>
+
           <button type="button" onClick={() => handleNavigate("about")}>
             關於本站
           </button>

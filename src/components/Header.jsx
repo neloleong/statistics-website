@@ -5,6 +5,7 @@ const navItems = [
   { id: "methods", label: "方法選擇器" },
   { id: "calculators", label: "計算器" },
   { id: "articles", label: "統計文章" },
+  { id: "faq", label: "FAQ" },
   { id: "chart", label: "圖表工具" },
   { id: "cases", label: "案例庫" },
   { id: "glossary", label: "詞彙表" },
@@ -32,6 +33,7 @@ function Header({ currentPage = "home", navigate }) {
           onClick={() => handleNavigate("home")}
         >
           <div className="brand-mark">Σ</div>
+
           <div>
             <div className="brand-title">MTS&apos; StatMap</div>
             <div className="brand-subtitle">統計學全景平台</div>

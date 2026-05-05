@@ -15,7 +15,8 @@ import {
   Compass,
   Lightbulb,
   LineChart,
-  Users
+  Users,
+  HelpCircle
 } from "lucide-react";
 
 import Header from "./components/Header";
@@ -33,6 +34,7 @@ import GlossaryPage from "./pages/GlossaryPage";
 import LearningPathPage from "./pages/LearningPathPage";
 import ArticleLibraryPage from "./pages/ArticleLibraryPage";
 import ArticleDetailPage from "./pages/ArticleDetailPage";
+import FAQPage from "./pages/FAQPage";
 
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
@@ -52,6 +54,7 @@ const validPages = [
   "path",
   "articles",
   "article",
+  "faq",
   "about",
   "contact",
   "privacy",
@@ -162,10 +165,7 @@ function App() {
     methods: <MethodSelectorPage navigate={navigate} />,
 
     calculators: (
-      <CalculatorPage
-        navigate={navigate}
-        initialCalculatorId={routeParam}
-      />
+      <CalculatorPage navigate={navigate} initialCalculatorId={routeParam} />
     ),
 
     chart: <ChartToolPage />,
@@ -178,12 +178,9 @@ function App() {
 
     articles: <ArticleLibraryPage navigate={navigate} />,
 
-    article: (
-      <ArticleDetailPage
-        articleId={routeParam}
-        navigate={navigate}
-      />
-    ),
+    article: <ArticleDetailPage articleId={routeParam} navigate={navigate} />,
+
+    faq: <FAQPage navigate={navigate} />,
 
     about: <AboutPage />,
 
@@ -272,6 +269,10 @@ function HomePage({ navigate }) {
               我想用文章方式理解 p-value、標準差、卡方檢定
             </button>
 
+            <button type="button" onClick={() => navigate("faq")}>
+              我想快速查看常見統計問題 FAQ
+            </button>
+
             <button type="button" onClick={() => navigate("path")}>
               我想按學習路線逐步學統計
             </button>
@@ -294,6 +295,7 @@ function HomePage({ navigate }) {
             actions={[
               { label: "查看學習路線", page: "path" },
               { label: "閱讀統計文章", page: "articles" },
+              { label: "查看 FAQ", page: "faq" },
               { label: "查詞彙表", page: "glossary" }
             ]}
             navigate={navigate}
@@ -386,6 +388,13 @@ function HomePage({ navigate }) {
             title="統計教學文章"
             text="用文章方式解釋 p-value、標準差、t 檢定、ANOVA、卡方和 Cronbach's Alpha。"
             onClick={() => navigate("articles")}
+          />
+
+          <FeatureCard
+            icon={HelpCircle}
+            title="統計 FAQ"
+            text="整理最常見的統計問題，包括 p-value、標準差、信心水平、樣本量和相關不等於因果。"
+            onClick={() => navigate("faq")}
           />
 
           <FeatureCard
@@ -510,6 +519,45 @@ function HomePage({ navigate }) {
             text="了解轉化率、樣本量、顯著性與商業價值之間的關係。"
             onClick={() => navigate("article", "ab-testing-result")}
           />
+        </div>
+      </section>
+
+      <section className="content-section">
+        <SectionTitle
+          eyebrow="FAQ Highlights"
+          title="常見統計問題快速入口"
+          description="如果你不想先讀長文章，可以先從 FAQ 快速理解最常見的統計問題。"
+        />
+
+        <div className="three-column-grid">
+          <SmallValueCard
+            icon={HelpCircle}
+            title="p-value 小於 0.05 代表什麼？"
+            text="快速理解統計顯著性、零假設，以及為什麼 p-value 不等於效果大小。"
+          />
+
+          <SmallValueCard
+            icon={HelpCircle}
+            title="樣本量越大越好嗎？"
+            text="理解樣本量、代表性、檢定力和實際研究意義之間的關係。"
+          />
+
+          <SmallValueCard
+            icon={HelpCircle}
+            title="相關不等於因果"
+            text="避免把相關係數直接解讀成因果關係，學會更嚴謹地看待數據。"
+          />
+        </div>
+
+        <div className="section-action-row">
+          <button
+            type="button"
+            className="btn-primary"
+            onClick={() => navigate("faq")}
+          >
+            查看全部 FAQ
+            <ArrowRight size={16} />
+          </button>
         </div>
       </section>
 
