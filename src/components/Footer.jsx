@@ -1,3 +1,5 @@
+import VisitorCounter from "./VisitorCounter";
+
 function Footer({ navigate }) {
   function handleNavigate(pageId) {
     if (typeof navigate === "function") {
@@ -17,6 +19,8 @@ function Footer({ navigate }) {
             系統化整理統計概念、公式、方法、案例、文章及分析工具，
             協助使用者更快理解和應用統計學。
           </p>
+
+          <VisitorCounter />
         </div>
 
         <div className="footer-links">

@@ -2050,4 +2050,28 @@ textarea {
   .legal-page h2 {
     font-size: 19px;
   }
+
+  /* =========================
+   Visitor Counter
+========================= */
+
+.visitor-counter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.visitor-counter span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: 999px;
+  background: #f1f5f9;
+  color: #475569;
+  padding: 6px 10px;
+  font-weight: 800;
+}
 }
