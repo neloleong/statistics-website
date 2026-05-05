@@ -492,7 +492,7 @@ function HomePage({ navigate }) {
         <SectionTitle
           eyebrow="Recommended Articles"
           title="推薦先讀文章"
-          description="如果你正在做統計作業、問卷分析或商業數據判斷，可以先從以下文章開始。"
+          description="如果你正在做統計作業、問卷分析、論文研究或商業數據判斷，可以先從以下文章開始。"
         />
 
         <div className="case-grid">
@@ -503,22 +503,45 @@ function HomePage({ navigate }) {
           />
 
           <ArticlePreviewCard
-            title="t 檢定和 ANOVA 有什麼分別？"
-            text="了解兩組平均數比較與三組以上平均數比較的差異。"
-            onClick={() => navigate("article", "t-test-vs-anova")}
+            title="什麼是置信區間？"
+            text="理解估計結果的不確定範圍，比單看平均數或比例更完整。"
+            onClick={() => navigate("article", "confidence-interval-intro")}
           />
 
           <ArticlePreviewCard
-            title="Cronbach's Alpha 怎樣解讀？"
-            text="問卷信度分析常用指標，適合量表研究者優先閱讀。"
-            onClick={() => navigate("article", "cronbach-alpha-guide")}
+            title="什麼是效果量？"
+            text="了解結果是否不只統計顯著，而且具有實際意義。"
+            onClick={() => navigate("article", "effect-size-guide")}
           />
 
           <ArticlePreviewCard
-            title="A/B Testing 怎樣判斷結果？"
-            text="了解轉化率、樣本量、顯著性與商業價值之間的關係。"
-            onClick={() => navigate("article", "ab-testing-result")}
+            title="問卷資料怎樣做統計分析？"
+            text="從題目類型、描述統計、信度分析到方法選擇，建立完整分析流程。"
+            onClick={() => navigate("article", "survey-data-analysis-guide")}
           />
+
+          <ArticlePreviewCard
+            title="Pearson 和 Spearman 有什麼不同？"
+            text="理解線性相關、排名相關、離群值和資料尺度對相關分析的影響。"
+            onClick={() => navigate("article", "pearson-vs-spearman")}
+          />
+
+          <ArticlePreviewCard
+            title="研究假設 H0 和 H1 怎樣寫？"
+            text="學會把研究問題轉化成可以用統計方法檢驗的零假設和研究假設。"
+            onClick={() => navigate("article", "hypothesis-h0-h1-guide")}
+          />
+        </div>
+
+        <div className="section-action-row">
+          <button
+            type="button"
+            className="btn-primary"
+            onClick={() => navigate("articles")}
+          >
+            查看全部統計文章
+            <ArrowRight size={16} />
+          </button>
         </div>
       </section>
 
