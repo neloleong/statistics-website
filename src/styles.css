@@ -342,6 +342,10 @@ main {
 
 .primary-btn,
 .btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   background: linear-gradient(135deg, var(--primary), var(--accent));
   color: #ffffff;
   box-shadow: 0 14px 30px rgba(37, 99, 235, 0.24);
@@ -349,6 +353,10 @@ main {
 
 .secondary-btn,
 .btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   background: #eef4ff;
   color: var(--primary);
 }
@@ -387,6 +395,9 @@ main {
   color: var(--primary);
   font-weight: 900;
   padding: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 /* =========================
@@ -1525,6 +1536,7 @@ textarea {
 
 .article-category,
 .article-difficulty,
+.article-reading-time,
 .article-meta-row span {
   display: inline-flex;
   align-items: center;
@@ -1543,6 +1555,11 @@ textarea {
 .article-difficulty {
   color: #047857;
   background: #d1fae5;
+}
+
+.article-reading-time {
+  color: #334155;
+  background: #f1f5f9;
 }
 
 .article-card h2 {
@@ -1575,6 +1592,7 @@ textarea {
   background: #f1f5f9;
 }
 
+.article-preview-list,
 .article-section-preview {
   display: grid;
   gap: 14px;
@@ -1600,6 +1618,10 @@ textarea {
   line-height: 1.75;
 }
 
+.article-card-actions {
+  margin-top: 18px;
+}
+
 .article-related-tools {
   margin-top: 18px;
   padding-top: 16px;
@@ -1623,6 +1645,140 @@ textarea {
   align-items: center;
   gap: 5px;
   color: #2563eb;
+}
+
+/* =========================
+   Article Detail Page
+========================= */
+
+.article-detail-page {
+  padding-top: 40px;
+  padding-bottom: 72px;
+}
+
+.article-detail-hero {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 28px;
+  padding: 34px;
+  box-shadow: 0 18px 48px rgba(15, 23, 42, 0.08);
+  margin: 34px 0 24px;
+}
+
+.back-link {
+  margin-bottom: 20px;
+}
+
+.article-detail-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.article-detail-hero h1 {
+  font-size: clamp(34px, 5vw, 58px);
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+  margin: 0 0 12px;
+  color: #0f172a;
+}
+
+.article-detail-english {
+  color: #2563eb;
+  font-size: 18px;
+  font-weight: 900;
+  margin: 0 0 14px;
+}
+
+.article-detail-summary {
+  color: #475569;
+  line-height: 1.85;
+  font-size: 18px;
+  max-width: 880px;
+  margin: 0;
+}
+
+.article-detail-content {
+  display: grid;
+  gap: 18px;
+}
+
+.article-detail-section {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 20px;
+  align-items: start;
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 24px;
+  padding: 26px;
+  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.05);
+}
+
+.article-section-number {
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  color: #ffffff;
+  font-weight: 900;
+}
+
+.article-detail-section h2 {
+  margin: 0 0 10px;
+  color: #0f172a;
+  font-size: 24px;
+}
+
+.article-detail-section p {
+  margin: 0;
+  color: #475569;
+  line-height: 1.9;
+  font-size: 16px;
+}
+
+.article-detail-tools {
+  margin-top: 26px;
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 24px;
+  padding: 26px;
+  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.05);
+}
+
+.article-detail-tool-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.article-detail-tool-button {
+  border: 0;
+  border-radius: 999px;
+  background: #eef4ff;
+  color: #2563eb;
+  padding: 11px 15px;
+  font-weight: 900;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: 0.2s ease;
+}
+
+.article-detail-tool-button:hover {
+  transform: translateY(-2px);
+  background: #dbeafe;
+}
+
+.article-detail-bottom {
+  margin-top: 26px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 /* =========================
@@ -1809,7 +1965,8 @@ textarea {
   .glossary-item,
   .formula-symbol-item,
   .step-item,
-  .topic-detail-item {
+  .topic-detail-item,
+  .article-detail-section {
     grid-template-columns: 1fr;
   }
 
@@ -1855,13 +2012,30 @@ textarea {
     font-size: 22px;
   }
 
-  .article-card {
+  .article-card,
+  .article-detail-hero,
+  .article-detail-section,
+  .article-detail-tools {
     padding: 20px;
     border-radius: 18px;
   }
 
   .article-card h2 {
     font-size: 22px;
+  }
+
+  .article-detail-hero h1 {
+    font-size: 34px;
+  }
+
+  .article-detail-summary {
+    font-size: 16px;
+  }
+
+  .article-section-number {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
   }
 
   .legal-page {

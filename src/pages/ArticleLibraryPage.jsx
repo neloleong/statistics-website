@@ -2,6 +2,15 @@ import { BookOpen, ArrowRight, Clock, BarChart3 } from "lucide-react";
 import { articles } from "../data/articles";
 
 function ArticleLibraryPage({ navigate }) {
+  function openArticle(articleId) {
+    if (typeof navigate === "function") {
+      navigate("article", articleId);
+      return;
+    }
+
+    window.location.hash = `article/${articleId}`;
+  }
+
   function openRelatedTool(tool) {
     if (typeof navigate === "function") {
       navigate(tool.page, tool.param || null);
@@ -55,19 +64,31 @@ function ArticleLibraryPage({ navigate }) {
                   <Clock size={14} />
                   {article.readingTime}
                 </span>
+
                 <span>
                   <BarChart3 size={14} />
                   {article.sections.length} 個重點
                 </span>
               </div>
 
-              <div className="article-section-preview">
-                {article.sections.map((section) => (
+              <div className="article-preview-list">
+                {article.sections.slice(0, 2).map((section) => (
                   <div key={section.heading} className="article-mini-section">
                     <h3>{section.heading}</h3>
                     <p>{section.content}</p>
                   </div>
                 ))}
+              </div>
+
+              <div className="article-card-actions">
+                <button
+                  type="button"
+                  className="primary-btn"
+                  onClick={() => openArticle(article.id)}
+                >
+                  查看全文
+                  <ArrowRight size={16} />
+                </button>
               </div>
 
               {article.relatedTools?.length ? (

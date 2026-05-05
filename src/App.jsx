@@ -22,6 +22,7 @@ import CaseLibraryPage from "./pages/CaseLibraryPage";
 import GlossaryPage from "./pages/GlossaryPage";
 import LearningPathPage from "./pages/LearningPathPage";
 import ArticleLibraryPage from "./pages/ArticleLibraryPage";
+import ArticleDetailPage from "./pages/ArticleDetailPage";
 
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
@@ -40,6 +41,7 @@ const validPages = [
   "glossary",
   "path",
   "articles",
+  "article",
   "about",
   "contact",
   "privacy",
@@ -165,6 +167,13 @@ function App() {
     path: <LearningPathPage />,
 
     articles: <ArticleLibraryPage navigate={navigate} />,
+
+    article: (
+      <ArticleDetailPage
+        articleId={routeParam}
+        navigate={navigate}
+      />
+    ),
 
     about: <AboutPage />,
 
