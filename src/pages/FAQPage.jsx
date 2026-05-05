@@ -1,251 +1,320 @@
 import { useMemo, useState } from "react";
 import {
-  HelpCircle,
   BookOpen,
   Calculator,
-  AlertTriangle,
-  Filter,
-  ArrowRight
+  ChevronDown,
+  CircleHelp,
+  FileText,
+  Lightbulb,
+  Route
 } from "lucide-react";
 import { faqs } from "../data/faqs";
 
 function FAQPage({ navigate }) {
   const [activeCategory, setActiveCategory] = useState("全部");
+  const [openFaqId, setOpenFaqId] = useState(null);
+  const [keyword, setKeyword] = useState("");
+
+  const safeFaqs = Array.isArray(faqs) ? faqs : [];
 
   const categories = useMemo(() => {
-    const categoryMap = new Map();
-
-    faqs.forEach((faq) => {
-      categoryMap.set(faq.category, (categoryMap.get(faq.category) || 0) + 1);
-    });
-
-    return [
-      {
-        name: "全部",
-        count: faqs.length
-      },
-      ...Array.from(categoryMap.entries()).map(([name, count]) => ({
-        name,
-        count
-      }))
-    ];
-  }, []);
+    const list = safeFaqs.map((faq) => faq?.category).filter(Boolean);
+    return ["全部", ...Array.from(new Set(list))];
+  }, [safeFaqs]);
 
   const filteredFaqs = useMemo(() => {
-    if (activeCategory === "全部") {
-      return faqs;
+    const cleanKeyword = keyword.trim().toLowerCase();
+
+    return safeFaqs.filter((faq) => {
+      const matchCategory =
+        activeCategory === "全部" || faq.category === activeCategory;
+
+      const searchText = [
+        faq.question,
+        faq.answer,
+        faq.category,
+        faq.misconception,
+        faq.commonMistake,
+        ...(faq.relatedArticles || []).map((item) =>
+          typeof item === "string" ? item : item.title || item.id
+        ),
+        ...(faq.relatedTools || []).map((item) =>
+          typeof item === "string" ? item : item.name || item.title || item.id
+        )
+      ]
+        .join(" ")
+        .toLowerCase();
+
+      const matchKeyword = !cleanKeyword || searchText.includes(cleanKeyword);
+
+      return matchCategory && matchKeyword;
+    });
+  }, [activeCategory, keyword, safeFaqs]);
+
+  const getCategoryCount = (category) => {
+    if (category === "全部") {
+      return safeFaqs.length;
     }
 
-    return faqs.filter((faq) => faq.category === activeCategory);
-  }, [activeCategory]);
+    return safeFaqs.filter((faq) => faq.category === category).length;
+  };
 
-  function handleArticleClick(articleId) {
-    if (!articleId) return;
+  const toggleFaq = (faqId) => {
+    setOpenFaqId((current) => (current === faqId ? null : faqId));
+  };
 
-    if (typeof navigate === "function") {
-      navigate("article", articleId);
+  const goToArticle = (articleId) => {
+    if (!articleId || typeof navigate !== "function") return;
+    navigate(`article/${articleId}`);
+  };
+
+  const goToTool = (toolId) => {
+    if (!toolId || typeof navigate !== "function") return;
+
+    if (toolId === "method-selector" || toolId === "methods") {
+      navigate("methods");
       return;
     }
 
-    window.location.hash = `article/${articleId}`;
-  }
+    navigate(`calculators/${toolId}`);
+  };
 
-  function handleToolClick(toolId) {
-    if (!toolId) return;
+  const normalizeArticle = (article) => {
+    if (!article) return null;
 
-    if (toolId === "method-selector") {
-      if (typeof navigate === "function") {
-        navigate("methods");
-        return;
-      }
-
-      window.location.hash = "methods";
-      return;
+    if (typeof article === "string") {
+      return {
+        id: article,
+        title: article
+      };
     }
 
-    if (typeof navigate === "function") {
-      navigate("calculators", toolId);
-      return;
+    return {
+      id: article.id,
+      title: article.title || article.name || article.id
+    };
+  };
+
+  const normalizeTool = (tool) => {
+    if (!tool) return null;
+
+    if (typeof tool === "string") {
+      return {
+        id: tool,
+        name: tool
+      };
     }
 
-    window.location.hash = `calculators/${toolId}`;
-  }
-
-  function handleNavigate(pageId) {
-    if (typeof navigate === "function") {
-      navigate(pageId);
-      return;
-    }
-
-    window.location.hash = pageId;
-  }
+    return {
+      id: tool.id,
+      name: tool.name || tool.title || tool.id
+    };
+  };
 
   return (
-    <div className="page faq-page">
-      <section className="page-hero">
-        <div className="page-eyebrow">Statistics FAQ</div>
-
-        <h1>常見統計問題 FAQ</h1>
-
-        <p>
-          以簡單、直接、可應用的方式解釋統計學中最常見的問題，
-          適合初學者、問卷研究者、論文寫作者及商業分析使用者快速查閱。
-        </p>
-      </section>
-
-      <section className="section">
-        <div className="section-title">
-          <span className="page-eyebrow">
-            <Filter size={15} />
-            FAQ Categories
-          </span>
-
-          <h2>按分類查看問題</h2>
-
+    <main className="page">
+      <section className="page-hero faq-hero">
+        <div className="container">
+          <div className="eyebrow">Statistics FAQ</div>
+          <h1>統計 FAQ 常見問題</h1>
           <p>
-            FAQ 內容會隨文章庫和工具功能持續擴充。你可以按分類快速查看相關問題。
+            整理初學者、問卷研究、論文分析和商業分析中最常見的統計問題，
+            並連接到相關文章和計算器。
           </p>
-        </div>
 
-        <div className="faq-category-filter">
-          {categories.map((category) => (
+          <div className="faq-hero-actions">
             <button
-              key={category.name}
               type="button"
-              className={
-                activeCategory === category.name
-                  ? "faq-category-filter-btn active"
-                  : "faq-category-filter-btn"
-              }
-              onClick={() => setActiveCategory(category.name)}
+              className="btn-primary"
+              onClick={() => navigate("articles")}
             >
-              <span>{category.name}</span>
-              <strong>{category.count}</strong>
+              <FileText size={18} />
+              閱讀統計文章
             </button>
-          ))}
-        </div>
-      </section>
 
-      <section className="section">
-        <div className="section-title">
-          <span className="page-eyebrow">
-            <HelpCircle size={15} />
-            FAQ List
-          </span>
-
-          <h2>
-            {activeCategory === "全部"
-              ? "全部常見問題"
-              : `${activeCategory} 常見問題`}
-          </h2>
-
-          <p>
-            目前顯示 {filteredFaqs.length} 條問題。每條問題都包含解釋、
-            常見誤解，以及相關文章和統計工具入口。
-          </p>
-        </div>
-
-        <div className="faq-list">
-          {filteredFaqs.map((faq, index) => (
-            <article className="faq-card" key={faq.id}>
-              <div className="faq-card-header">
-                <div className="faq-number">
-                  {String(index + 1).padStart(2, "0")}
-                </div>
-
-                <div>
-                  <div className="faq-meta">
-                    <span>{faq.category}</span>
-                    <span>{faq.difficulty}</span>
-                  </div>
-
-                  <h2>
-                    <HelpCircle size={22} />
-                    {faq.question}
-                  </h2>
-                </div>
-              </div>
-
-              <div className="faq-answer">
-                <p>{faq.answer}</p>
-              </div>
-
-              <div className="faq-warning">
-                <AlertTriangle size={18} />
-                <p>
-                  <strong>常見誤解：</strong>
-                  {faq.commonMistake}
-                </p>
-              </div>
-
-              <div className="faq-actions">
-                {faq.relatedArticle && (
-                  <button
-                    type="button"
-                    className="text-button"
-                    onClick={() => handleArticleClick(faq.relatedArticle)}
-                  >
-                    <BookOpen size={16} />
-                    查看相關文章
-                  </button>
-                )}
-
-                {faq.relatedTool && (
-                  <button
-                    type="button"
-                    className="text-button"
-                    onClick={() => handleToolClick(faq.relatedTool)}
-                  >
-                    <Calculator size={16} />
-                    使用相關工具
-                  </button>
-                )}
-              </div>
-            </article>
-          ))}
-        </div>
-
-        {filteredFaqs.length === 0 && (
-          <div className="empty-state">
-            <strong>暫時沒有 FAQ</strong>
-            <p>這個分類目前沒有問題，之後可以繼續補充。</p>
+            <button
+              type="button"
+              className="btn-secondary"
+              onClick={() => navigate("methods")}
+            >
+              <Route size={18} />
+              方法選擇器
+            </button>
           </div>
-        )}
-      </section>
-
-      <section className="section faq-bottom-panel">
-        <div>
-          <div className="page-eyebrow">Learning Suggestion</div>
-
-          <h2>建議學習方式</h2>
-
-          <p>
-            如果你是統計初學者，建議先閱讀描述統計、p-value、置信區間、
-            t 檢定、ANOVA 和相關分析，再進一步學習回歸分析、問卷信度和樣本量估算。
-          </p>
-        </div>
-
-        <div className="faq-bottom-actions">
-          <button
-            type="button"
-            className="btn-secondary"
-            onClick={() => handleNavigate("articles")}
-          >
-            閱讀統計文章
-            <BookOpen size={16} />
-          </button>
-
-          <button
-            type="button"
-            className="btn-primary"
-            onClick={() => handleNavigate("path")}
-          >
-            前往學習路線
-            <ArrowRight size={16} />
-          </button>
         </div>
       </section>
-    </div>
+
+      <section className="section faq-section">
+        <div className="container">
+          <div className="section-head">
+            <div>
+              <div className="eyebrow">Find Your Question</div>
+              <h2>查找統計問題</h2>
+            </div>
+            <p>
+              目前共有 <strong>{safeFaqs.length}</strong> 條常見統計問題。
+            </p>
+          </div>
+
+          <div className="faq-search-box">
+            <CircleHelp size={18} />
+            <input
+              type="text"
+              value={keyword}
+              onChange={(event) => setKeyword(event.target.value)}
+              placeholder="搜尋：p-value、ANOVA、問卷、樣本量、相關..."
+            />
+          </div>
+
+          <div className="filter-pills faq-category-pills">
+            {categories.map((category) => (
+              <button
+                key={category}
+                type="button"
+                className={
+                  activeCategory === category
+                    ? "filter-pill active"
+                    : "filter-pill"
+                }
+                onClick={() => {
+                  setActiveCategory(category);
+                  setOpenFaqId(null);
+                }}
+              >
+                <span>{category}</span>
+                <small>{getCategoryCount(category)}</small>
+              </button>
+            ))}
+          </div>
+
+          <div className="article-result-count">
+            目前顯示 <strong>{filteredFaqs.length}</strong> 條 FAQ
+          </div>
+
+          {filteredFaqs.length === 0 ? (
+            <div className="empty-box">
+              <h3>暫時找不到相關問題</h3>
+              <p>可以嘗試其他關鍵詞，或切換到全部分類。</p>
+              <button
+                type="button"
+                className="btn-primary"
+                onClick={() => {
+                  setKeyword("");
+                  setActiveCategory("全部");
+                }}
+              >
+                查看全部 FAQ
+              </button>
+            </div>
+          ) : (
+            <div className="faq-list">
+              {filteredFaqs.map((faq) => {
+                const isOpen = openFaqId === faq.id;
+                const relatedArticles = Array.isArray(faq.relatedArticles)
+                  ? faq.relatedArticles.map(normalizeArticle).filter(Boolean)
+                  : [];
+
+                const relatedTools = Array.isArray(faq.relatedTools)
+                  ? faq.relatedTools.map(normalizeTool).filter(Boolean)
+                  : [];
+
+                return (
+                  <article
+                    key={faq.id}
+                    className={isOpen ? "faq-item open" : "faq-item"}
+                  >
+                    <button
+                      type="button"
+                      className="faq-question-row"
+                      onClick={() => toggleFaq(faq.id)}
+                    >
+                      <div>
+                        <span className="faq-category-badge">
+                          {faq.category || "未分類"}
+                        </span>
+                        <h3>{faq.question}</h3>
+                      </div>
+
+                      <ChevronDown
+                        size={22}
+                        className={isOpen ? "faq-chevron rotate" : "faq-chevron"}
+                      />
+                    </button>
+
+                    {isOpen && (
+                      <div className="faq-answer-panel">
+                        <div className="faq-answer-block">
+                          <div className="faq-block-title">
+                            <BookOpen size={18} />
+                            <strong>簡明答案</strong>
+                          </div>
+                          <p>{faq.answer}</p>
+                        </div>
+
+                        {(faq.misconception || faq.commonMistake) && (
+                          <div className="faq-answer-block warning">
+                            <div className="faq-block-title">
+                              <Lightbulb size={18} />
+                              <strong>常見誤解</strong>
+                            </div>
+                            <p>{faq.misconception || faq.commonMistake}</p>
+                          </div>
+                        )}
+
+                        {relatedArticles.length > 0 && (
+                          <div className="faq-related-block">
+                            <div className="faq-related-title">
+                              <FileText size={18} />
+                              <strong>相關文章</strong>
+                            </div>
+
+                            <div className="faq-related-list">
+                              {relatedArticles.map((article) => (
+                                <button
+                                  key={article.id}
+                                  type="button"
+                                  className="faq-related-card"
+                                  onClick={() => goToArticle(article.id)}
+                                >
+                                  <span>{article.title}</span>
+                                  <small>閱讀文章</small>
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {relatedTools.length > 0 && (
+                          <div className="faq-related-block">
+                            <div className="faq-related-title">
+                              <Calculator size={18} />
+                              <strong>相關工具</strong>
+                            </div>
+
+                            <div className="faq-tool-list">
+                              {relatedTools.map((tool) => (
+                                <button
+                                  key={tool.id}
+                                  type="button"
+                                  className="tool-chip"
+                                  onClick={() => goToTool(tool.id)}
+                                >
+                                  {tool.name}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </article>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      </section>
+    </main>
   );
 }
 

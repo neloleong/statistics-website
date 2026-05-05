@@ -494,3 +494,7 @@ export const calculatorGuides = {
     ]
   }
 };
+
+export function getCalculatorGuide(calculatorId) {
+  return calculatorGuides[calculatorId] || null;
+}

@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from "react";
 import { Calculator, Clock, CheckCircle2 } from "lucide-react";
 
 import { calculators } from "../data/calculators";
-import { calculatorGuides } from "../data/calculatorGuides";
 
 import MeanCalculator from "../calculators/MeanCalculator";
 import StandardDeviationCalculator from "../calculators/StandardDeviationCalculator";
@@ -18,6 +17,8 @@ import CronbachAlphaCalculator from "../calculators/CronbachAlphaCalculator";
 import ANOVACalculator from "../calculators/ANOVACalculator";
 import ProbabilityCalculator from "../calculators/ProbabilityCalculator";
 import LogisticRegressionHelper from "../calculators/LogisticRegressionHelper";
+
+import CalculatorGuidePanel from "../components/CalculatorGuidePanel";
 
 const calculatorComponents = {
   "mean-calculator": MeanCalculator,
@@ -73,6 +74,7 @@ function CalculatorPage({ initialCalculatorId, navigate }) {
 
       setTimeout(() => {
         const target = document.querySelector(".calculator-main-panel");
+
         if (target) {
           target.scrollIntoView({
             behavior: "smooth",
@@ -87,8 +89,6 @@ function CalculatorPage({ initialCalculatorId, navigate }) {
     (item) => item.id === activeCalculatorId
   );
 
-  const activeGuide = calculatorGuides[activeCalculatorId];
-
   const ActiveCalculatorComponent = calculatorComponents[activeCalculatorId];
 
   function selectCalculator(calculatorId) {
@@ -102,6 +102,7 @@ function CalculatorPage({ initialCalculatorId, navigate }) {
 
     setTimeout(() => {
       const target = document.querySelector(".calculator-main-panel");
+
       if (target) {
         target.scrollIntoView({
           behavior: "smooth",
@@ -119,7 +120,8 @@ function CalculatorPage({ initialCalculatorId, navigate }) {
         <p className="page-description">
           選擇需要的統計工具，輸入資料後即可快速計算平均數、標準差、相關係數、
           線性回歸、t 檢定、卡方檢定、置信區間、A/B Testing、樣本量估算、
-          z-score、Cronbach&apos;s Alpha、ANOVA、機率分佈及 Logistic 回歸解釋等結果。
+          z-score、Cronbach&apos;s Alpha、ANOVA、機率分佈及 Logistic
+          回歸解釋等結果。
         </p>
       </section>
 
@@ -183,9 +185,10 @@ function CalculatorPage({ initialCalculatorId, navigate }) {
             )}
           </div>
 
-          {activeGuide ? (
-            <CalculatorGuideBox guide={activeGuide} />
-          ) : null}
+          <CalculatorGuidePanel
+            calculatorId={activeCalculatorId}
+            navigate={navigate}
+          />
         </section>
       </section>
 
@@ -232,47 +235,6 @@ function CalculatorPage({ initialCalculatorId, navigate }) {
         </div>
       </section>
     </div>
-  );
-}
-
-function CalculatorGuideBox({ guide }) {
-  return (
-    <section className="calculator-guide-box">
-      <div className="section-heading">
-        <div className="page-eyebrow">How to Use</div>
-        <h2 className="section-title">{guide.title}</h2>
-        <p className="section-description">
-          以下內容可幫助你理解這個工具適合什麼情況、如何輸入資料，以及如何解讀結果。
-        </p>
-      </div>
-
-      <div className="calculator-guide-grid">
-        <GuideCard title="適合什麼情況" items={guide.suitableFor} />
-        <GuideCard title="不適合什麼情況" items={guide.notSuitableFor} />
-        <GuideCard title="輸入格式" items={guide.inputFormat} />
-        <GuideCard title="結果如何解讀" items={guide.interpretation} />
-        <GuideCard title="常見錯誤" items={guide.commonMistakes} />
-        <GuideCard title="正式研究注意事項" items={guide.researchNotes} />
-      </div>
-    </section>
-  );
-}
-
-function GuideCard({ title, items }) {
-  if (!items?.length) {
-    return null;
-  }
-
-  return (
-    <article className="tool-info-card">
-      <h3>{title}</h3>
-
-      <ul className="tool-output-list">
-        {items.map((item) => (
-          <li key={item}>{item}</li>
-        ))}
-      </ul>
-    </article>
   );
 }
 
