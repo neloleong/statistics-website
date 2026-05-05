@@ -1496,6 +1496,136 @@ textarea {
 }
 
 /* =========================
+   Article Library
+========================= */
+
+.article-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 22px;
+  margin-top: 22px;
+}
+
+.article-card {
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 24px;
+  background: #ffffff;
+  padding: 26px;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06);
+}
+
+.article-card-top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.article-category,
+.article-difficulty,
+.article-meta-row span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.article-category {
+  color: #1d4ed8;
+  background: #dbeafe;
+}
+
+.article-difficulty {
+  color: #047857;
+  background: #d1fae5;
+}
+
+.article-card h2 {
+  font-size: 26px;
+  margin: 0 0 6px;
+  color: #0f172a;
+}
+
+.article-english-title {
+  color: #2563eb;
+  font-weight: 800;
+  margin: 0 0 12px;
+}
+
+.article-summary {
+  color: #475569;
+  line-height: 1.8;
+  margin: 0 0 16px;
+}
+
+.article-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.article-meta-row span {
+  color: #334155;
+  background: #f1f5f9;
+}
+
+.article-section-preview {
+  display: grid;
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.article-mini-section {
+  border-left: 4px solid #2563eb;
+  background: #f8fafc;
+  border-radius: 14px;
+  padding: 14px 16px;
+}
+
+.article-mini-section h3 {
+  margin: 0 0 8px;
+  color: #0f172a;
+  font-size: 17px;
+}
+
+.article-mini-section p {
+  margin: 0;
+  color: #475569;
+  line-height: 1.75;
+}
+
+.article-related-tools {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.article-related-tools strong {
+  display: block;
+  margin-bottom: 10px;
+  color: #0f172a;
+}
+
+.article-tool-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.article-tool-buttons .text-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #2563eb;
+}
+
+/* =========================
    Topic Detail Page
 ========================= */
 
@@ -1722,6 +1852,15 @@ textarea {
   }
 
   .calculator-info-box h2 {
+    font-size: 22px;
+  }
+
+  .article-card {
+    padding: 20px;
+    border-radius: 18px;
+  }
+
+  .article-card h2 {
     font-size: 22px;
   }
 

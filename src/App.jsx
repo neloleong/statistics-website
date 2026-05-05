@@ -4,7 +4,8 @@ import {
   FlaskConical,
   FunctionSquare,
   Map,
-  Search
+  Search,
+  BookOpen
 } from "lucide-react";
 
 import Header from "./components/Header";
@@ -20,6 +21,7 @@ import ChartToolPage from "./pages/ChartToolPage";
 import CaseLibraryPage from "./pages/CaseLibraryPage";
 import GlossaryPage from "./pages/GlossaryPage";
 import LearningPathPage from "./pages/LearningPathPage";
+import ArticleLibraryPage from "./pages/ArticleLibraryPage";
 
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
@@ -37,6 +39,7 @@ const validPages = [
   "cases",
   "glossary",
   "path",
+  "articles",
   "about",
   "contact",
   "privacy",
@@ -161,6 +164,8 @@ function App() {
 
     path: <LearningPathPage />,
 
+    articles: <ArticleLibraryPage navigate={navigate} />,
+
     about: <AboutPage />,
 
     contact: <ContactPage />,
@@ -242,6 +247,10 @@ function HomePage({ navigate }) {
             <button type="button" onClick={() => navigate("path")}>
               學習路線
             </button>
+
+            <button type="button" onClick={() => navigate("articles")}>
+              看文章
+            </button>
           </div>
         </div>
       </section>
@@ -280,6 +289,13 @@ function HomePage({ navigate }) {
             title="統計計算器"
             text="包含平均數、標準差、相關係數、回歸、t-test、卡方和置信區間。"
             onClick={() => navigate("calculators")}
+          />
+
+          <FeatureCard
+            icon={BookOpen}
+            title="統計教學文章"
+            text="用文章方式解釋 p-value、標準差、t 檢定、ANOVA、卡方和信度分析。"
+            onClick={() => navigate("articles")}
           />
         </div>
       </section>

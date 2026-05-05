@@ -4,6 +4,7 @@ const navItems = [
   { id: "formulas", label: "公式庫" },
   { id: "methods", label: "方法選擇器" },
   { id: "calculators", label: "計算器" },
+  { id: "articles", label: "統計文章" },
   { id: "chart", label: "圖表工具" },
   { id: "cases", label: "案例庫" },
   { id: "glossary", label: "詞彙表" },
@@ -32,7 +33,7 @@ function Header({ currentPage = "home", navigate }) {
         >
           <div className="brand-mark">Σ</div>
           <div>
-            <div className="brand-title">MTS'StatMap</div>
+            <div className="brand-title">MTS&apos; StatMap</div>
             <div className="brand-subtitle">統計學全景平台</div>
           </div>
         </button>
@@ -42,7 +43,9 @@ function Header({ currentPage = "home", navigate }) {
             <button
               key={item.id}
               type="button"
-              className={currentPage === item.id ? "nav-link active" : "nav-link"}
+              className={
+                currentPage === item.id ? "nav-link active" : "nav-link"
+              }
               onClick={() => handleNavigate(item.id)}
             >
               {item.label}
