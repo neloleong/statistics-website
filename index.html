@@ -113,6 +113,96 @@
         "sameAs": []
       }
     </script>
+
+    <!-- Structured Data：FAQ 資料 -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "p-value 小於 0.05 代表什麼？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "p-value 小於 0.05 通常代表在零假設成立的情況下，觀察到目前結果或更極端結果的機率低於 5%。因此研究者通常會拒絕零假設，認為結果具有統計顯著性。不過，p-value 並不代表研究假設一定正確，也不代表效果一定很大。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "標準差越大代表什麼？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "標準差越大，代表資料分散程度越高，也就是數值之間差異較大。標準差越小，代表資料較集中，數值較接近平均值。平均數一樣的兩組資料，實際分布也可能完全不同。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "t 檢定和 ANOVA 有什麼分別？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "t 檢定主要用於比較兩組平均數是否有顯著差異，而 ANOVA 主要用於比較三組或以上平均數是否有顯著差異。三組或以上資料不應重複做多次 t 檢定，因為會增加第一類錯誤的機率。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Cronbach's Alpha 要多少才可以接受？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Cronbach's Alpha 常用於檢查問卷量表的內部一致性。一般來說，0.70 以上通常被視為可以接受，0.80 以上較好，0.90 以上則代表非常高。不過，Alpha 太高也可能代表題目過於重複。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "樣本量越大越好嗎？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "樣本量較大通常可以提高估計穩定性和檢定力，但不代表越大越好。過大的樣本可能讓很小、實際意義不大的差異也變成統計顯著。因此樣本量應根據研究目的、效果大小、顯著水準和檢定力進行估算。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "什麼時候用卡方檢定？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "卡方檢定常用於分析類別變數之間是否存在關聯。例如研究性別與是否購買某產品之間是否有關係，或不同年齡組別對某政策的支持比例是否不同，都可以考慮使用卡方檢定。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "A/B Testing 要測多久？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A/B Testing 的時間不應只看天數，而要看樣本量、轉化率、預期效果大小和流量穩定性。測試時間太短可能受偶然波動影響，時間太長則可能受到市場環境變化干擾。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Logistic 回歸和線性回歸有什麼不同？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "線性回歸通常用於預測連續型結果，例如收入、分數或銷售額。Logistic 回歸則常用於預測二元結果，例如是否購買、是否流失、是否通過。當結果變數只有兩種狀態時，Logistic 回歸通常比線性回歸更合適。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "信心水平 95% 是什麼意思？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "95% 信心水平表示如果用同樣方法重複抽樣很多次，約有 95% 的置信區間會包含真正的母體參數。它不是指某一次計算出的區間有 95% 機率包含真值，而是指方法在長期重複使用下的可靠程度。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "相關不等於因果是什麼意思？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "相關代表兩個變數之間存在某種共同變化趨勢，但不代表其中一個一定導致另一個。看到兩個變數有高度相關時，不應立即下因果結論，通常需要更嚴謹的研究設計才能支持因果推論。"
+            }
+          }
+        ]
+      }
+    </script>
   </head>
 
   <body>
